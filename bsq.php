@@ -82,7 +82,7 @@ function addXtoMap($map, $position) {
 }
 
 // affiche la map en carre plus propre
-function showClearMap($map, $hauteurMap, $largeurMap) {
+function showMap($map, $hauteurMap, $largeurMap) {
     for ($i =0; $i < $hauteurMap; $i++) {
         for ($j=0; $j < $largeurMap; $j++) { 
             echo $map[$i][$j];
@@ -90,12 +90,11 @@ function showClearMap($map, $hauteurMap, $largeurMap) {
         echo "\n";
     }
 }
-$map = prepareMap($map, $hauteurMap, $largeurMap);
-// print_r($map);
-$position = posOfBigestSquare($map, $hauteurMap, $largeurMap);
+$mapWithNumber = prepareMap($map, $hauteurMap, $largeurMap);
+// print_r($mapWithNumber);
+$position = posOfBigestSquare($mapWithNumber, $hauteurMap, $largeurMap);
 // print_r($position);
-$map = addXtoMap($defaultMap, $position);
+$mapWithX = addXtoMap($defaultMap, $position);
 // print_r($map);
-// showClearMap($defaultMap, $hauteurMap, $largeurMap);
-showClearMap($map, $hauteurMap, $largeurMap);
-
+// showMap($defaultMap, $hauteurMap, $largeurMap);
+showMap($mapWithX, $hauteurMap, $largeurMap);
