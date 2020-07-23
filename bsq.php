@@ -2,7 +2,7 @@
 
 // recupere contenue de mon fichier
 $files = file_get_contents($argv[1]);
-// var_dump($files);
+var_dump($files);
 
 // stock et suprime premiere ligne
 $map = explode("\n", $files);
@@ -12,8 +12,6 @@ $hauteurMap = array_shift($map);
 for ($i=0; $i < $hauteurMap; $i++) { 
     $map[$i] = str_split($map[$i]);
 }
-// garde la map de base pour placer les X
-$defaultMap = $map;
 $largeurMap = count($map[0]);
 
 for ($i =0; $i < $hauteurMap; $i++) {
@@ -25,8 +23,6 @@ for ($i =0; $i < $hauteurMap; $i++) {
         }
     }
 }  
-// print_r($map);
-// print_r($defaultMap);
 
 function prepareMap($map, $hauteurMap, $largeurMap){
     for ($i =0; $i < $hauteurMap; $i++) {
@@ -67,9 +63,20 @@ function posOfBigestSquare($map, $hauteurMap, $largeurMap) {
     return $position;
 }
 
-function addXtoMap($map, $position) {
+function addXtoMap($map, $position, $hauteurMap, $largeurMap) {
     $ligne = $position['ligne'];
     $colone = $position['colone'];
+
+    for ($i =0; $i < $hauteurMap; $i++) {
+        for ($j=0; $j < $largeurMap; $j++) { 
+            if ($map[$i][$j] == 0) {
+                $map[$i][$j] = 'o';
+            } else {
+                $map[$i][$j] = '.';
+            }
+        } 
+    }
+
     for ($i=0; $i < $position['taille'] ; $i++) { 
         for ($j=0; $j < $position['taille']; $j++) { 
             $map[$ligne][$colone] = "x";
@@ -90,11 +97,15 @@ function showMap($map, $hauteurMap, $largeurMap) {
         echo "\n";
     }
 }
-$mapWithNumber = prepareMap($map, $hauteurMap, $largeurMap);
-// print_r($mapWithNumber);
-$position = posOfBigestSquare($mapWithNumber, $hauteurMap, $largeurMap);
-// print_r($position);
-$mapWithX = addXtoMap($defaultMap, $position);
-// print_r($map);
-// showMap($defaultMap, $hauteurMap, $largeurMap);
-showMap($mapWithX, $hauteurMap, $largeurMap);
+
+// valeur 1 et 0 pour chaque case 
+$map = prepareMap($map, $hauteurMap, $largeurMap);
+
+// recupere la position de la plus grande valeur
+$position = posOfBigestSquare($map, $hauteurMap, $largeurMap);
+
+// place le plus grand carre 
+$map = addXtoMap($map, $position, $hauteurMap, $largeurMap);
+
+//affiche la map avec carre 
+showMap($map, $hauteurMap, $largeurMap);
